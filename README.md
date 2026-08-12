@@ -39,6 +39,8 @@ Opening `index.html` directly via `file://` will not work — browsers block `fe
 - `fetch_data.py` — hits the three endpoints, writes JSON to `data/`
 - `index.html` / `style.css` / `app.js` — the site
 - `data/` — local cache; regenerate with `fetch_data.py`
+- `footballbanner.png` — hero banner shown at the top
+- `Eye Of The Tiger.mp3` — background loop (first 45 seconds); toggle with the button in the top-right
 
 ## Future
 

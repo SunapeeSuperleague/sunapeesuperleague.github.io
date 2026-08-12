@@ -1,0 +1,40 @@
+name: Refresh FPL data
+
+on:
+  schedule:
+    # Every Tuesday at 09:00 UTC — safely after most Monday-night GW closers.
+    # Cron is in UTC; GitHub may delay scheduled runs by a few minutes.
+    - cron: '0 9 * * 2'
+  workflow_dispatch: {}
+
+concurrency:
+  group: refresh-data
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Fetch FPL data
+        run: python fetch_data.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --staged --quiet; then
+            echo "No changes; skipping commit."
+          else
+            git commit -m "chore: refresh FPL data $(date -u +%Y-%m-%d)"
+            git push
+          fi

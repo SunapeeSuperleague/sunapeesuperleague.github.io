@@ -3,6 +3,7 @@ const POSITION_CLASS = { 1: "gk", 2: "def", 3: "mid", 4: "fwd" };
 const PHOTO_BASE_SM = "https://resources.premierleague.com/premierleague/photos/players/110x140";
 const PHOTO_BASE_LG = "https://resources.premierleague.com/premierleague/photos/players/250x250";
 const SHIRT_BASE = "https://fantasy.premierleague.com/dist/img/shirts/standard";
+const AUDIO_LOOP_SECONDS = 45;
 
 async function loadJSON(path) {
     const resp = await fetch(path);
@@ -21,6 +22,13 @@ function shirtURL(team, isGK, size = 110) {
     return `${SHIRT_BASE}/shirt_${team.code}${suffix}-${size}.png`;
 }
 
+function trophySVG(kind) {
+    // kind: "gold" | "silver" | "bronze"
+    return `<svg class="trophy trophy-${kind}" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M7 3h10v2h4v3a5 5 0 0 1-4.6 4.98A6 6 0 0 1 13 16.9V19h4v2H7v-2h4v-2.1a6 6 0 0 1-3.4-3.92A5 5 0 0 1 3 8V5h4V3zm12 4v1a3 3 0 0 0 2-2.83V7h-2zM3 7v1.17A3 3 0 0 0 5 8V7H3z" fill="currentColor"/>
+    </svg>`;
+}
+
 function statRow(label, value) {
     const v = (value === null || value === undefined || value === "") ? "—" : value;
     return `<div class="stat"><span class="stat-label">${label}</span><span class="stat-value">${v}</span></div>`;
@@ -32,6 +40,8 @@ function renderPlayerDetails(player, teamsById, positionsById) {
     const isGK = player.element_type === 1;
     const bigPhoto = photoURL(player, PHOTO_BASE_LG);
     const shirtFallback = shirtURL(team, isGK, 110);
+    const imgSrc = bigPhoto || shirtFallback;
+    const imgFallback = bigPhoto ? shirtFallback : "";
 
     const news = player.news
         ? `<div class="player-news">${player.news}</div>`
@@ -71,9 +81,6 @@ function renderPlayerDetails(player, teamsById, positionsById) {
         statRow("Threat", player.threat),
     ].join("");
 
-    const imgSrc = bigPhoto || shirtFallback;
-    const imgFallback = bigPhoto ? shirtFallback : "";
-
     return `
         <div class="player-details">
             <img class="player-photo-lg" src="${imgSrc}" alt="" ${imgFallback ? `data-fallback="${imgFallback}"` : ""}>
@@ -109,7 +116,7 @@ function renderPlayer(player, teamsById, positionsById) {
     `;
 }
 
-function renderTeamCard(entry, ownedPlayers, standing, teamsById, positionsById) {
+function renderTeamCard(entry, rank, medal, ownedPlayers, standing, teamsById, positionsById) {
     const byPosition = new Map();
     for (const pid of POSITION_ORDER) byPosition.set(pid, []);
     for (const p of ownedPlayers) {
@@ -119,9 +126,9 @@ function renderTeamCard(entry, ownedPlayers, standing, teamsById, positionsById)
         list.sort((a, b) => a.web_name.localeCompare(b.web_name));
     }
 
-    const rankBadge = standing
-        ? `<span class="team-rank">#${standing.rank} · ${standing.total} pts</span>`
-        : `<span class="team-rank">pre-season</span>`;
+    const totalPts = standing?.total ?? 0;
+    const gwPts = standing?.event_total;
+    const gwLabel = (gwPts !== null && gwPts !== undefined) ? `GW ${gwPts}` : "";
 
     const groups = POSITION_ORDER.map(pid => {
         const players = byPosition.get(pid);
@@ -129,24 +136,100 @@ function renderTeamCard(entry, ownedPlayers, standing, teamsById, positionsById)
         const label = positionsById.get(pid)?.singular_name ?? "";
         return `
             <div class="position-group">
-                <div class="position-label ${POSITION_CLASS[pid]}">${label} (${players.length})</div>
+                <div class="position-label ${POSITION_CLASS[pid]}">${label} <span class="pos-count">${players.length}</span></div>
                 ${players.map(p => renderPlayer(p, teamsById, positionsById)).join("")}
             </div>
         `;
     }).join("");
 
+    const medalHTML = medal ? trophySVG(medal) : "";
+
     return `
-        <article class="team-card">
-            <div class="team-header">
-                <div>
-                    <h2>${entry.entry_name}</h2>
-                    <div class="team-manager">${entry.player_first_name} ${entry.player_last_name}</div>
+        <article class="team-card" data-entry-id="${entry.entry_id}">
+            <button class="team-toggle" type="button" aria-expanded="false">
+                <span class="rank-badge">${rank}</span>
+                <div class="team-name-block">
+                    <h2>${entry.entry_name}${medalHTML}</h2>
+                    <span class="manager">${entry.player_first_name} ${entry.player_last_name}</span>
                 </div>
-                ${rankBadge}
+                <div class="points-block">
+                    ${gwLabel ? `<span class="gw-pts">${gwLabel}</span>` : ""}
+                    <span class="total-pts">${totalPts} pts</span>
+                </div>
+                <span class="chevron" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="16" height="16"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+            </button>
+            <div class="roster-wrap">
+                <div class="roster-inner">
+                    ${groups || `<p class="empty">No players drafted yet.</p>`}
+                </div>
             </div>
-            ${groups || `<p class="loading">No players drafted yet.</p>`}
         </article>
     `;
+}
+
+function renderRankedRow(player, metric, teamsById, positionsById, subtext = "") {
+    const team = teamsById.get(player.team);
+    const pos = positionsById.get(player.element_type);
+    const isGK = player.element_type === 1;
+    const smallPhoto = photoURL(player, PHOTO_BASE_SM);
+    const shirtFallback = shirtURL(team, isGK, 66);
+    const imgSrc = smallPhoto || shirtFallback;
+    const imgFallback = smallPhoto ? shirtFallback : "";
+    const subtextHTML = subtext ? `<span class="player-owner">${subtext}</span>` : "";
+    return `
+        <div class="player-row best-row" data-player-id="${player.id}">
+            <span class="best-metric">${metric}</span>
+            <img class="player-photo" src="${imgSrc}" alt="" loading="lazy" ${imgFallback ? `data-fallback="${imgFallback}"` : ""}>
+            <div class="player-info">
+                <span class="player-name">${player.web_name}</span>
+                <span class="player-team">${team ? team.short_name : "?"} · ${pos ? pos.singular_name_short : ""}</span>
+                ${subtextHTML}
+            </div>
+        </div>
+    `;
+}
+
+function topN(players, keyFn, n = 10, ascending = false) {
+    const scored = players
+        .map(p => ({ p, k: keyFn(p) }))
+        .filter(x => x.k != null);
+    scored.sort((a, b) => ascending ? a.k - b.k : b.k - a.k);
+    return scored.slice(0, n).map(x => x.p);
+}
+
+function setupPanel(rootEl, modes, defaultMode, teamsById, positionsById) {
+    // modes: { modeKey: { players: [...], formatMetric: (p) => string, getSubtext?: (p) => string } }
+    const list = rootEl.querySelector(".best-list");
+    const buttons = rootEl.querySelectorAll(".mode-btn");
+
+    function render(mode) {
+        const { players, formatMetric, getSubtext } = modes[mode];
+        list.innerHTML = players
+            .map(p => renderRankedRow(
+                p,
+                formatMetric(p),
+                teamsById,
+                positionsById,
+                getSubtext ? getSubtext(p) : "",
+            ))
+            .join("");
+    }
+
+    buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const mode = btn.dataset.mode;
+            buttons.forEach(b => {
+                const active = b === btn;
+                b.classList.toggle("active", active);
+                b.setAttribute("aria-selected", active ? "true" : "false");
+            });
+            render(mode);
+        });
+    });
+
+    render(defaultMode);
 }
 
 function setupModal(playersById, teamsById, positionsById) {
@@ -179,7 +262,6 @@ function setupModal(playersById, teamsById, positionsById) {
 }
 
 function setupPhotoFallbacks(root) {
-    // Delegated handler: on <img> error, swap to data-fallback (once).
     root.addEventListener("error", (e) => {
         const img = e.target;
         if (img.tagName !== "IMG") return;
@@ -189,6 +271,74 @@ function setupPhotoFallbacks(root) {
             img.src = fb;
         }
     }, true);
+}
+
+function setupCollapse(container) {
+    container.addEventListener("click", (e) => {
+        const toggle = e.target.closest(".team-toggle");
+        if (!toggle) return;
+        const card = toggle.closest(".team-card");
+        const expanded = card.classList.toggle("expanded");
+        toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+    });
+}
+
+function setupAudio() {
+    const audio = document.getElementById("bg-audio");
+    const button = document.getElementById("audio-toggle");
+    if (!audio || !button) return;
+
+    audio.loop = true;
+    // Loop only the first 45 seconds
+    audio.addEventListener("timeupdate", () => {
+        if (audio.currentTime >= AUDIO_LOOP_SECONDS) audio.currentTime = 0;
+    });
+
+    const savedMuted = localStorage.getItem("audio-muted") === "true";
+    audio.muted = savedMuted;
+    updateButton();
+
+    function updateButton() {
+        button.classList.toggle("is-muted", audio.muted);
+        button.setAttribute("aria-pressed", audio.muted ? "true" : "false");
+    }
+
+    function tryPlay() {
+        audio.play().catch(() => {
+            // Autoplay blocked — start on first user interaction
+            const start = () => {
+                audio.play().catch(() => {});
+                document.removeEventListener("click", start);
+                document.removeEventListener("keydown", start);
+            };
+            document.addEventListener("click", start, { once: true });
+            document.addEventListener("keydown", start, { once: true });
+        });
+    }
+    tryPlay();
+
+    button.addEventListener("click", (e) => {
+        e.stopPropagation();
+        audio.muted = !audio.muted;
+        localStorage.setItem("audio-muted", audio.muted);
+        updateButton();
+        if (!audio.muted && audio.paused) tryPlay();
+    });
+}
+
+function computeMedals(standings) {
+    // Return Map<league_entry_id, "gold"|"silver"|"bronze"> based on last GW's event_total.
+    // Only assigned when at least one team has event_total > 0.
+    const withPoints = (standings ?? [])
+        .filter(s => (s.event_total ?? 0) > 0)
+        .map(s => ({ id: s.league_entry, pts: s.event_total }))
+        .sort((a, b) => b.pts - a.pts);
+    const medals = new Map();
+    const tiers = ["gold", "silver", "bronze"];
+    for (let i = 0; i < Math.min(3, withPoints.length); i++) {
+        medals.set(withPoints[i].id, tiers[i]);
+    }
+    return medals;
 }
 
 async function main() {
@@ -202,13 +352,12 @@ async function main() {
 
         document.getElementById("league-name").textContent = details.league?.name ?? "FPL Draft League";
         const entryCount = details.league_entries?.length ?? 0;
-        document.getElementById("league-meta").textContent = `${entryCount} teams · click a player for stats`;
+        document.getElementById("league-meta").textContent = `${entryCount} teams · tap a card to expand`;
 
         const playersById = new Map(bootstrap.elements.map(p => [p.id, p]));
         const teamsById = new Map(bootstrap.teams.map(t => [t.id, t]));
         const positionsById = new Map(bootstrap.element_types.map(t => [t.id, t]));
 
-        // element_status.owner matches league_entries[].entry_id, not .id
         const ownedByEntry = new Map();
         for (const entry of details.league_entries) ownedByEntry.set(entry.entry_id, []);
         for (const row of elementStatus.element_status) {
@@ -218,20 +367,39 @@ async function main() {
             }
         }
 
-        // standings key on league_entries[].id
         const standingByEntry = new Map(
             (details.standings ?? []).map(s => [s.league_entry, s])
         );
 
+        // league_entries[].id is the key used by standings; league_entries[].entry_id is used by ownership.
+        // Sort by total points desc, then by team name for stable order in pre-season ties.
         const sortedEntries = [...details.league_entries].sort((a, b) => {
-            const ra = standingByEntry.get(a.id)?.rank ?? 999;
-            const rb = standingByEntry.get(b.id)?.rank ?? 999;
-            return ra - rb;
+            const ta = standingByEntry.get(a.id)?.total ?? 0;
+            const tb = standingByEntry.get(b.id)?.total ?? 0;
+            if (tb !== ta) return tb - ta;
+            return a.entry_name.localeCompare(b.entry_name);
+        });
+
+        const medals = computeMedals(details.standings);
+
+        // Standard competition ranking (1224): tied totals share a rank; next rank skips.
+        const rankByEntryId = new Map();
+        let currentRank = 0;
+        let prevTotal = null;
+        sortedEntries.forEach((entry, i) => {
+            const total = standingByEntry.get(entry.id)?.total ?? 0;
+            if (total !== prevTotal) {
+                currentRank = i + 1;
+                prevTotal = total;
+            }
+            rankByEntryId.set(entry.id, currentRank);
         });
 
         container.innerHTML = sortedEntries
             .map(entry => renderTeamCard(
                 entry,
+                rankByEntryId.get(entry.id),
+                medals.get(entry.id),
                 ownedByEntry.get(entry.entry_id) ?? [],
                 standingByEntry.get(entry.id),
                 teamsById,
@@ -239,10 +407,68 @@ async function main() {
             ))
             .join("");
 
+        const unpickedPlayers = elementStatus.element_status
+            .filter(r => r.owner === null)
+            .map(r => playersById.get(r.element))
+            .filter(Boolean);
+        const ownedPlayers = elementStatus.element_status
+            .filter(r => r.owner !== null)
+            .map(r => playersById.get(r.element))
+            .filter(Boolean);
+
+        // player_id -> owning fantasy team name
+        const entryByEntryId = new Map(details.league_entries.map(e => [e.entry_id, e]));
+        const ownerNameByPlayerId = new Map();
+        for (const row of elementStatus.element_status) {
+            if (row.owner && entryByEntryId.has(row.owner)) {
+                ownerNameByPlayerId.set(row.element, entryByEntryId.get(row.owner).entry_name);
+            }
+        }
+        const getOwner = p => ownerNameByPlayerId.get(p.id) ?? "";
+
+        setupPanel(
+            document.getElementById("panel-scorers"),
+            {
+                gw: {
+                    players: topN(ownedPlayers, p => p.event_points ?? 0),
+                    formatMetric: p => `${p.event_points ?? 0}`,
+                    getSubtext: getOwner,
+                },
+                total: {
+                    players: topN(ownedPlayers, p => p.total_points ?? 0),
+                    formatMetric: p => `${p.total_points ?? 0}`,
+                    getSubtext: getOwner,
+                },
+            },
+            "gw",
+            teamsById,
+            positionsById,
+        );
+
+        setupPanel(
+            document.getElementById("panel-available"),
+            {
+                draft: {
+                    players: topN(unpickedPlayers, p => p.draft_rank, 10, true),
+                    formatMetric: p => `#${p.draft_rank ?? "—"}`,
+                },
+                points: {
+                    players: topN(unpickedPlayers, p => p.total_points ?? 0),
+                    formatMetric: p => `${p.total_points ?? 0}`,
+                },
+            },
+            "draft",
+            teamsById,
+            positionsById,
+        );
+
         const modal = setupModal(playersById, teamsById, positionsById);
         setupPhotoFallbacks(document.body);
+        setupCollapse(container);
+        setupAudio();
 
-        container.addEventListener("click", (e) => {
+        // Delegate player-row clicks across both roster and sidebar.
+        document.querySelector(".layout").addEventListener("click", (e) => {
             const row = e.target.closest(".player-row");
             if (!row) return;
             const id = Number(row.dataset.playerId);
