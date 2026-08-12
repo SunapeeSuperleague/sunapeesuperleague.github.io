@@ -1,0 +1,173 @@
+{
+  "league": {
+    "admin_entry": 125501,
+    "closed": true,
+    "draft_dt": "2026-08-10T16:00:00Z",
+    "draft_pick_time_limit": 90,
+    "draft_status": "post",
+    "draft_tz_show": "America/New_York",
+    "id": 24629,
+    "ko_rounds": 0,
+    "make_code_public": false,
+    "max_entries": 8,
+    "min_entries": 4,
+    "name": "Sunapee Superleague",
+    "scoring": "c",
+    "start_event": 1,
+    "stop_event": 38,
+    "trades": "y",
+    "transaction_mode": "waivers",
+    "variety": "x",
+    "drafts": [
+      {
+        "id": 26198,
+        "draft_started": true,
+        "draft_completed": "2026-08-10T16:31:37.631682Z",
+        "draft_dt": "2026-08-10T16:00:00Z",
+        "event": 1,
+        "league": 24629,
+        "order_method": "random"
+      },
+      {
+        "id": 26199,
+        "draft_started": false,
+        "draft_completed": null,
+        "draft_dt": "2027-01-02T19:30:00Z",
+        "event": 20,
+        "league": 24629,
+        "order_method": "rank"
+      }
+    ],
+    "is_renewed": false
+  },
+  "league_entries": [
+    {
+      "entry_id": 125501,
+      "entry_name": "Alaskan Thunderbirds",
+      "id": 126019,
+      "joined_time": "2026-08-10T15:40:19.288791Z",
+      "player_first_name": "Chris",
+      "player_last_name": "Cockerill",
+      "short_name": "CC",
+      "waiver_pick": 7
+    },
+    {
+      "entry_id": 125547,
+      "entry_name": "Puddles",
+      "id": 126065,
+      "joined_time": "2026-08-10T15:42:18.695008Z",
+      "player_first_name": "Corey",
+      "player_last_name": "Smith",
+      "short_name": "CS",
+      "waiver_pick": 4
+    },
+    {
+      "entry_id": 125579,
+      "entry_name": "Sunapee cruise",
+      "id": 126097,
+      "joined_time": "2026-08-10T15:44:09.108054Z",
+      "player_first_name": "Eric",
+      "player_last_name": "C",
+      "short_name": "EC",
+      "waiver_pick": 3
+    },
+    {
+      "entry_id": 125585,
+      "entry_name": "Newbury Knights",
+      "id": 126103,
+      "joined_time": "2026-08-10T15:44:56.605260Z",
+      "player_first_name": "Regina",
+      "player_last_name": "Cockerill",
+      "short_name": "RC",
+      "waiver_pick": 2
+    },
+    {
+      "entry_id": 125596,
+      "entry_name": "Livi\u2019s Angels",
+      "id": 126114,
+      "joined_time": "2026-08-10T15:45:51.940616Z",
+      "player_first_name": "Livi",
+      "player_last_name": "Zhards",
+      "short_name": "LZ",
+      "waiver_pick": 6
+    },
+    {
+      "entry_id": 125616,
+      "entry_name": "Blodgetts",
+      "id": 126134,
+      "joined_time": "2026-08-10T15:46:33.981930Z",
+      "player_first_name": "Andrew",
+      "player_last_name": "C",
+      "short_name": "AC",
+      "waiver_pick": 5
+    },
+    {
+      "entry_id": 125845,
+      "entry_name": "Sunapee Wake",
+      "id": 126363,
+      "joined_time": "2026-08-10T15:59:13.405922Z",
+      "player_first_name": "Michael",
+      "player_last_name": "Pelayo",
+      "short_name": "MP",
+      "waiver_pick": 1
+    }
+  ],
+  "standings": [
+    {
+      "event_total": null,
+      "last_rank": null,
+      "league_entry": 126019,
+      "rank": null,
+      "rank_sort": null,
+      "total": 0
+    },
+    {
+      "event_total": null,
+      "last_rank": null,
+      "league_entry": 126065,
+      "rank": null,
+      "rank_sort": null,
+      "total": 0
+    },
+    {
+      "event_total": null,
+      "last_rank": null,
+      "league_entry": 126097,
+      "rank": null,
+      "rank_sort": null,
+      "total": 0
+    },
+    {
+      "event_total": null,
+      "last_rank": null,
+      "league_entry": 126103,
+      "rank": null,
+      "rank_sort": null,
+      "total": 0
+    },
+    {
+      "event_total": null,
+      "last_rank": null,
+      "league_entry": 126114,
+      "rank": null,
+      "rank_sort": null,
+      "total": 0
+    },
+    {
+      "event_total": null,
+      "last_rank": null,
+      "league_entry": 126134,
+      "rank": null,
+      "rank_sort": null,
+      "total": 0
+    },
+    {
+      "event_total": null,
+      "last_rank": null,
+      "league_entry": 126363,
+      "rank": null,
+      "rank_sort": null,
+      "total": 0
+    }
+  ]
+}
