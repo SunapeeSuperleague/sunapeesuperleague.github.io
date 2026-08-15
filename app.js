@@ -283,6 +283,34 @@ function setupCollapse(container) {
     });
 }
 
+function formatTimeAgo(date) {
+    const secs = Math.floor((Date.now() - date.getTime()) / 1000);
+    if (secs < 60) return "just now";
+    const mins = Math.floor(secs / 60);
+    if (mins < 60) return `${mins} minute${mins === 1 ? "" : "s"} ago`;
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return `${hours} hour${hours === 1 ? "" : "s"} ago`;
+    const days = Math.floor(hours / 24);
+    if (days < 7) return `${days} day${days === 1 ? "" : "s"} ago`;
+    return date.toISOString().slice(0, 10);
+}
+
+async function setupLastRefresh() {
+    const el = document.getElementById("last-refresh");
+    if (!el) return;
+    try {
+        const resp = await fetch("data/last_refresh.txt", { cache: "no-store" });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const iso = (await resp.text()).trim();
+        const d = new Date(iso);
+        if (isNaN(d)) throw new Error("bad timestamp");
+        el.textContent = `Last refreshed ${formatTimeAgo(d)}`;
+        el.title = d.toUTCString();
+    } catch {
+        el.textContent = "Last refresh unknown";
+    }
+}
+
 function setupAudio() {
     const audio = document.getElementById("bg-audio");
     const button = document.getElementById("audio-toggle");
@@ -466,6 +494,7 @@ async function main() {
         setupPhotoFallbacks(document.body);
         setupCollapse(container);
         setupAudio();
+        setupLastRefresh();
 
         // Delegate player-row clicks across both roster and sidebar.
         document.querySelector(".layout").addEventListener("click", (e) => {

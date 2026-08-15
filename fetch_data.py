@@ -1,6 +1,7 @@
 """Fetch FPL draft data locally so the browser can read it without CORS issues."""
 import json
 import urllib.request
+from datetime import datetime, timezone
 from pathlib import Path
 
 LEAGUE_ID = 24629
@@ -22,6 +23,10 @@ def main() -> None:
             data = json.load(resp)
         (DATA_DIR / filename).write_text(json.dumps(data, indent=2))
         print(f"  wrote data/{filename}")
+
+    stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    (DATA_DIR / "last_refresh.txt").write_text(stamp + "\n")
+    print(f"  wrote data/last_refresh.txt ({stamp})")
 
 
 if __name__ == "__main__":
