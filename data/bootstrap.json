@@ -24098,7 +24098,7 @@
       "tackles": 0,
       "defensive_contribution": 0,
       "added": "2026-07-22T14:42:46.569217Z",
-      "chance_of_playing_next_round": null,
+      "chance_of_playing_next_round": 0,
       "chance_of_playing_this_round": null,
       "code": 462635,
       "draft_rank": 366,
@@ -24109,14 +24109,14 @@
       "first_name": "Joe",
       "form": "0.0",
       "in_dreamteam": false,
-      "news": "",
-      "news_added": null,
+      "news": "Ankle injury - Expected back 5 Sep",
+      "news_added": "2026-08-17T21:30:07.799839Z",
       "news_return": null,
       "news_updated": null,
       "points_per_game": "0.0",
       "second_name": "Gelhardt",
       "squad_number": null,
-      "status": "a",
+      "status": "i",
       "total_points": 0,
       "web_name": "Gelhardt",
       "influence_rank": 526,
@@ -42230,43 +42230,43 @@
       },
       {
         "average_entry_score": null,
-        "deadline_time": "2026-10-10T12:30:00Z",
+        "deadline_time": "2026-10-10T10:00:00Z",
         "id": 6,
         "name": "Gameweek 6",
         "finished": false,
         "highest_scoring_entry": null,
-        "trades_time": "2026-10-08T12:30:00Z",
-        "waivers_time": "2026-10-09T12:30:00Z"
+        "trades_time": "2026-10-08T10:00:00Z",
+        "waivers_time": "2026-10-09T10:00:00Z"
       },
       {
         "average_entry_score": null,
-        "deadline_time": "2026-10-17T12:30:00Z",
+        "deadline_time": "2026-10-17T10:00:00Z",
         "id": 7,
         "name": "Gameweek 7",
         "finished": false,
         "highest_scoring_entry": null,
-        "trades_time": "2026-10-15T12:30:00Z",
-        "waivers_time": "2026-10-16T12:30:00Z"
+        "trades_time": "2026-10-15T10:00:00Z",
+        "waivers_time": "2026-10-16T10:00:00Z"
       },
       {
         "average_entry_score": null,
-        "deadline_time": "2026-10-24T12:30:00Z",
+        "deadline_time": "2026-10-23T17:30:00Z",
         "id": 8,
         "name": "Gameweek 8",
         "finished": false,
         "highest_scoring_entry": null,
-        "trades_time": "2026-10-22T12:30:00Z",
-        "waivers_time": "2026-10-23T12:30:00Z"
+        "trades_time": "2026-10-21T17:30:00Z",
+        "waivers_time": "2026-10-22T17:30:00Z"
       },
       {
         "average_entry_score": null,
-        "deadline_time": "2026-10-31T13:30:00Z",
+        "deadline_time": "2026-10-31T11:00:00Z",
         "id": 9,
         "name": "Gameweek 9",
         "finished": false,
         "highest_scoring_entry": null,
-        "trades_time": "2026-10-29T13:30:00Z",
-        "waivers_time": "2026-10-30T13:30:00Z"
+        "trades_time": "2026-10-29T11:00:00Z",
+        "waivers_time": "2026-10-30T11:00:00Z"
       },
       {
         "average_entry_score": null,
