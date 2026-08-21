@@ -116,7 +116,7 @@ function renderPlayer(player, teamsById, positionsById) {
     `;
 }
 
-function renderTeamCard(entry, rank, medal, ownedPlayers, standing, provisionalGw, teamsById, positionsById) {
+function renderTeamCard(entry, rank, medal, ownedPlayers, gwPoints, seasonTotal, teamsById, positionsById) {
     const byPosition = new Map();
     for (const pid of POSITION_ORDER) byPosition.set(pid, []);
     for (const p of ownedPlayers) {
@@ -126,12 +126,7 @@ function renderTeamCard(entry, rank, medal, ownedPlayers, standing, provisionalG
         list.sort((a, b) => a.web_name.localeCompare(b.web_name));
     }
 
-    const officialGw = standing?.event_total;
-    const hasLive = provisionalGw != null;
-    const displayGw = hasLive ? provisionalGw : officialGw;
-    const gwLabel = (displayGw !== null && displayGw !== undefined) ? `This GW: ${displayGw} pts` : "";
-    // Running season total includes the in-flight GW so the number stays live.
-    const runningSeasonTotal = (standing?.total ?? 0) + (hasLive ? provisionalGw : 0);
+    const gwLabel = (gwPoints !== null && gwPoints !== undefined) ? `This GW: ${gwPoints} pts` : "";
 
     const groups = POSITION_ORDER.map(pid => {
         const players = byPosition.get(pid);
@@ -157,7 +152,7 @@ function renderTeamCard(entry, rank, medal, ownedPlayers, standing, provisionalG
                 </div>
                 <div class="points-block">
                     ${gwLabel ? `<span class="gw-pts">${gwLabel}</span>` : ""}
-                    <span class="total-pts">Season Total: ${runningSeasonTotal} pts</span>
+                    <span class="total-pts">Season Total: ${seasonTotal} pts</span>
                 </div>
                 <span class="chevron" aria-hidden="true">
                     <svg viewBox="0 0 24 24" width="16" height="16"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -405,7 +400,7 @@ async function main() {
 
         // Provisional GW points: sum of starters' event_points from the picks endpoint.
         // The league standings API only publishes event_total after the GW settles, so
-        // we compute it live here and rank by (season total + provisional GW).
+        // we compute it live here to avoid the pre-settlement "0 pts" display.
         // Keyed by league_entry.id (the same key standings uses).
         const provisionalGwByEntryId = new Map();
         if (picksData && picksData.picks) {
@@ -422,11 +417,32 @@ async function main() {
             }
         }
 
+        // Once the API rolls the GW into standings.total, adding provisional would double-count.
+        // The `finished` flag lags behind the roll-up, so use the presence of any non-zero
+        // event_total as the settlement signal (a whole-league zero GW is essentially impossible).
+        const gwSettled = (details.standings ?? []).some(s => (s.event_total ?? 0) > 0);
+
+        // Unified per-entry GW points for display + medals: prefer API's settled event_total,
+        // fall back to our provisional sum while the GW is live.
+        const gwPointsByEntryId = new Map();
+        if (gwSettled) {
+            for (const s of details.standings ?? []) {
+                gwPointsByEntryId.set(s.league_entry, s.event_total ?? 0);
+            }
+        } else {
+            for (const [k, v] of provisionalGwByEntryId) gwPointsByEntryId.set(k, v);
+        }
+
+        // Season total: when settled, standings.total already includes the GW.
+        // While live, add provisional so the number stays current.
+        const seasonTotalFor = (entryLeagueId) => {
+            const base = standingByEntry.get(entryLeagueId)?.total ?? 0;
+            if (gwSettled) return base;
+            return base + (provisionalGwByEntryId.get(entryLeagueId) ?? 0);
+        };
+
         // league_entries[].id is the key used by standings; league_entries[].entry_id is used by ownership.
-        // Sort by running season total (settled + provisional GW) desc, then by team name for stable ties.
-        const seasonTotalFor = (entryLeagueId) =>
-            (standingByEntry.get(entryLeagueId)?.total ?? 0)
-            + (provisionalGwByEntryId.get(entryLeagueId) ?? 0);
+        // Sort by running season total desc, then by team name for stable ties.
         const sortedEntries = [...details.league_entries].sort((a, b) => {
             const ta = seasonTotalFor(a.id);
             const tb = seasonTotalFor(b.id);
@@ -434,11 +450,8 @@ async function main() {
             return a.entry_name.localeCompare(b.entry_name);
         });
 
-        // Medals go to the current gameweek's top scorers — provisional when live, else the settled event_total.
-        const gwForMedals = provisionalGwByEntryId.size > 0
-            ? provisionalGwByEntryId
-            : new Map((details.standings ?? []).map(s => [s.league_entry, s.event_total ?? 0]));
-        const medals = computeMedals(gwForMedals);
+        // Medals go to the current gameweek's top scorers.
+        const medals = computeMedals(gwPointsByEntryId);
 
         // Standard competition ranking (1224): tied totals share a rank; next rank skips.
         const rankByEntryId = new Map();
@@ -459,8 +472,8 @@ async function main() {
                 rankByEntryId.get(entry.id),
                 medals.get(entry.id),
                 ownedByEntry.get(entry.entry_id) ?? [],
-                standingByEntry.get(entry.id),
-                provisionalGwByEntryId.get(entry.id),
+                gwPointsByEntryId.get(entry.id),
+                seasonTotalFor(entry.id),
                 teamsById,
                 positionsById,
             ))
