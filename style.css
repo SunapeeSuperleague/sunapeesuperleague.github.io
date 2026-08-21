@@ -314,20 +314,14 @@ main {
     gap: 2px;
     font-variant-numeric: tabular-nums;
 }
-.gw-pts {
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--accent);
-    background: rgba(55, 200, 113, 0.12);
-    padding: 1px 6px;
-    border-radius: 4px;
-}
+.gw-pts,
 .total-pts {
     font-size: 0.85rem;
     font-weight: 600;
-    color: var(--text);
+    letter-spacing: -0.01em;
 }
+.gw-pts { color: #d8f5e4; }
+.total-pts { color: #ffffff; }
 
 .chevron {
     display: grid;
@@ -618,6 +612,6 @@ footer code {
     .rank-badge { width: 26px; height: 26px; font-size: 0.8rem; }
     .team-name-block h2 { font-size: 0.92rem; }
     .team-name-block .manager { font-size: 0.68rem; }
-    .total-pts { font-size: 0.8rem; }
-    .gw-pts { font-size: 0.62rem; }
+    .gw-pts,
+    .total-pts { font-size: 0.78rem; }
 }

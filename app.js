@@ -116,7 +116,7 @@ function renderPlayer(player, teamsById, positionsById) {
     `;
 }
 
-function renderTeamCard(entry, rank, medal, ownedPlayers, standing, teamsById, positionsById) {
+function renderTeamCard(entry, rank, medal, ownedPlayers, standing, provisionalGw, teamsById, positionsById) {
     const byPosition = new Map();
     for (const pid of POSITION_ORDER) byPosition.set(pid, []);
     for (const p of ownedPlayers) {
@@ -126,9 +126,12 @@ function renderTeamCard(entry, rank, medal, ownedPlayers, standing, teamsById, p
         list.sort((a, b) => a.web_name.localeCompare(b.web_name));
     }
 
-    const totalPts = standing?.total ?? 0;
-    const gwPts = standing?.event_total;
-    const gwLabel = (gwPts !== null && gwPts !== undefined) ? `GW ${gwPts}` : "";
+    const officialGw = standing?.event_total;
+    const hasLive = provisionalGw != null;
+    const displayGw = hasLive ? provisionalGw : officialGw;
+    const gwLabel = (displayGw !== null && displayGw !== undefined) ? `This GW: ${displayGw} pts` : "";
+    // Running season total includes the in-flight GW so the number stays live.
+    const runningSeasonTotal = (standing?.total ?? 0) + (hasLive ? provisionalGw : 0);
 
     const groups = POSITION_ORDER.map(pid => {
         const players = byPosition.get(pid);
@@ -154,7 +157,7 @@ function renderTeamCard(entry, rank, medal, ownedPlayers, standing, teamsById, p
                 </div>
                 <div class="points-block">
                     ${gwLabel ? `<span class="gw-pts">${gwLabel}</span>` : ""}
-                    <span class="total-pts">${totalPts} pts</span>
+                    <span class="total-pts">Season Total: ${runningSeasonTotal} pts</span>
                 </div>
                 <span class="chevron" aria-hidden="true">
                     <svg viewBox="0 0 24 24" width="16" height="16"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -354,17 +357,16 @@ function setupAudio() {
     });
 }
 
-function computeMedals(standings) {
-    // Return Map<league_entry_id, "gold"|"silver"|"bronze"> based on last GW's event_total.
-    // Only assigned when at least one team has event_total > 0.
-    const withPoints = (standings ?? [])
-        .filter(s => (s.event_total ?? 0) > 0)
-        .map(s => ({ id: s.league_entry, pts: s.event_total }))
-        .sort((a, b) => b.pts - a.pts);
+function computeMedals(gwByEntryId) {
+    // Return Map<league_entry_id, "gold"|"silver"|"bronze"> based on current GW points.
+    // Only assigned when at least one team has > 0.
+    const withPoints = [...gwByEntryId.entries()]
+        .filter(([, pts]) => (pts ?? 0) > 0)
+        .sort((a, b) => b[1] - a[1]);
     const medals = new Map();
     const tiers = ["gold", "silver", "bronze"];
     for (let i = 0; i < Math.min(3, withPoints.length); i++) {
-        medals.set(withPoints[i].id, tiers[i]);
+        medals.set(withPoints[i][0], tiers[i]);
     }
     return medals;
 }
@@ -377,6 +379,8 @@ async function main() {
             loadJSON("data/element_status.json"),
             loadJSON("data/bootstrap.json"),
         ]);
+        // Optional: per-team picks for the current gameweek. Absent pre-season.
+        const picksData = await loadJSON("data/picks.json").catch(() => null);
 
         document.getElementById("league-name").textContent = details.league?.name ?? "FPL Draft League";
         const entryCount = details.league_entries?.length ?? 0;
@@ -399,23 +403,49 @@ async function main() {
             (details.standings ?? []).map(s => [s.league_entry, s])
         );
 
+        // Provisional GW points: sum of starters' event_points from the picks endpoint.
+        // The league standings API only publishes event_total after the GW settles, so
+        // we compute it live here and rank by (season total + provisional GW).
+        // Keyed by league_entry.id (the same key standings uses).
+        const provisionalGwByEntryId = new Map();
+        if (picksData && picksData.picks) {
+            for (const entry of details.league_entries) {
+                const picks = picksData.picks[String(entry.entry_id)];
+                if (!picks) continue;
+                let gw = 0;
+                for (const pick of picks) {
+                    if (pick.position > 11) continue;
+                    const p = playersById.get(pick.element);
+                    if (p) gw += p.event_points ?? 0;
+                }
+                provisionalGwByEntryId.set(entry.id, gw);
+            }
+        }
+
         // league_entries[].id is the key used by standings; league_entries[].entry_id is used by ownership.
-        // Sort by total points desc, then by team name for stable order in pre-season ties.
+        // Sort by running season total (settled + provisional GW) desc, then by team name for stable ties.
+        const seasonTotalFor = (entryLeagueId) =>
+            (standingByEntry.get(entryLeagueId)?.total ?? 0)
+            + (provisionalGwByEntryId.get(entryLeagueId) ?? 0);
         const sortedEntries = [...details.league_entries].sort((a, b) => {
-            const ta = standingByEntry.get(a.id)?.total ?? 0;
-            const tb = standingByEntry.get(b.id)?.total ?? 0;
+            const ta = seasonTotalFor(a.id);
+            const tb = seasonTotalFor(b.id);
             if (tb !== ta) return tb - ta;
             return a.entry_name.localeCompare(b.entry_name);
         });
 
-        const medals = computeMedals(details.standings);
+        // Medals go to the current gameweek's top scorers — provisional when live, else the settled event_total.
+        const gwForMedals = provisionalGwByEntryId.size > 0
+            ? provisionalGwByEntryId
+            : new Map((details.standings ?? []).map(s => [s.league_entry, s.event_total ?? 0]));
+        const medals = computeMedals(gwForMedals);
 
         // Standard competition ranking (1224): tied totals share a rank; next rank skips.
         const rankByEntryId = new Map();
         let currentRank = 0;
         let prevTotal = null;
         sortedEntries.forEach((entry, i) => {
-            const total = standingByEntry.get(entry.id)?.total ?? 0;
+            const total = seasonTotalFor(entry.id);
             if (total !== prevTotal) {
                 currentRank = i + 1;
                 prevTotal = total;
@@ -430,6 +460,7 @@ async function main() {
                 medals.get(entry.id),
                 ownedByEntry.get(entry.entry_id) ?? [],
                 standingByEntry.get(entry.id),
+                provisionalGwByEntryId.get(entry.id),
                 teamsById,
                 positionsById,
             ))
