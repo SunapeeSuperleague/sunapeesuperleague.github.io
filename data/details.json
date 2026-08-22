@@ -49,7 +49,7 @@
       "player_first_name": "Chris",
       "player_last_name": "Cockerill",
       "short_name": "CC",
-      "waiver_pick": 7
+      "waiver_pick": 2
     },
     {
       "entry_id": 125547,
@@ -59,7 +59,7 @@
       "player_first_name": "Corey",
       "player_last_name": "Smith",
       "short_name": "CS",
-      "waiver_pick": 5
+      "waiver_pick": 7
     },
     {
       "entry_id": 125579,
@@ -79,7 +79,7 @@
       "player_first_name": "Regina",
       "player_last_name": "Cockerill",
       "short_name": "RC",
-      "waiver_pick": 1
+      "waiver_pick": 3
     },
     {
       "entry_id": 125596,
@@ -89,7 +89,7 @@
       "player_first_name": "Livi",
       "player_last_name": "Zhards",
       "short_name": "LZ",
-      "waiver_pick": 3
+      "waiver_pick": 6
     },
     {
       "entry_id": 125616,
@@ -99,7 +99,7 @@
       "player_first_name": "Andrew",
       "player_last_name": "C",
       "short_name": "AC",
-      "waiver_pick": 6
+      "waiver_pick": 5
     },
     {
       "entry_id": 125845,
@@ -109,65 +109,65 @@
       "player_first_name": "Michael",
       "player_last_name": "Pelayo",
       "short_name": "MP",
-      "waiver_pick": 2
+      "waiver_pick": 1
     }
   ],
   "standings": [
     {
-      "event_total": 17,
-      "last_rank": null,
-      "league_entry": 126019,
-      "rank": 1,
-      "rank_sort": 1,
-      "total": 17
-    },
-    {
-      "event_total": 15,
-      "last_rank": null,
-      "league_entry": 126134,
-      "rank": 2,
-      "rank_sort": 2,
-      "total": 15
-    },
-    {
-      "event_total": 14,
+      "event_total": 38,
       "last_rank": null,
       "league_entry": 126065,
-      "rank": 3,
-      "rank_sort": 3,
-      "total": 14
+      "rank": 1,
+      "rank_sort": 1,
+      "total": 38
     },
     {
-      "event_total": 9,
+      "event_total": 30,
+      "last_rank": null,
+      "league_entry": 126114,
+      "rank": 2,
+      "rank_sort": 2,
+      "total": 30
+    },
+    {
+      "event_total": 29,
+      "last_rank": null,
+      "league_entry": 126134,
+      "rank": 3,
+      "rank_sort": 3,
+      "total": 29
+    },
+    {
+      "event_total": 27,
       "last_rank": null,
       "league_entry": 126097,
       "rank": 4,
       "rank_sort": 4,
-      "total": 9
+      "total": 27
     },
     {
-      "event_total": 6,
-      "last_rank": null,
-      "league_entry": 126114,
-      "rank": 5,
-      "rank_sort": 5,
-      "total": 6
-    },
-    {
-      "event_total": 0,
-      "last_rank": null,
-      "league_entry": 126363,
-      "rank": 6,
-      "rank_sort": 6,
-      "total": 0
-    },
-    {
-      "event_total": 0,
+      "event_total": 22,
       "last_rank": null,
       "league_entry": 126103,
+      "rank": 5,
+      "rank_sort": 5,
+      "total": 22
+    },
+    {
+      "event_total": 21,
+      "last_rank": null,
+      "league_entry": 126019,
       "rank": 6,
+      "rank_sort": 6,
+      "total": 21
+    },
+    {
+      "event_total": 10,
+      "last_rank": null,
+      "league_entry": 126363,
+      "rank": 7,
       "rank_sort": 7,
-      "total": 0
+      "total": 10
     }
   ]
 }
