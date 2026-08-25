@@ -59,7 +59,7 @@
       "player_first_name": "Corey",
       "player_last_name": "Smith",
       "short_name": "CS",
-      "waiver_pick": 4
+      "waiver_pick": 5
     },
     {
       "entry_id": 125579,
@@ -69,7 +69,7 @@
       "player_first_name": "Eric",
       "player_last_name": "C",
       "short_name": "EC",
-      "waiver_pick": 5
+      "waiver_pick": 4
     },
     {
       "entry_id": 125585,
@@ -122,36 +122,36 @@
       "total": 65
     },
     {
-      "event_total": 49,
+      "event_total": 50,
       "last_rank": null,
       "league_entry": 126103,
       "rank": 2,
       "rank_sort": 2,
-      "total": 49
+      "total": 50
     },
     {
-      "event_total": 44,
-      "last_rank": null,
-      "league_entry": 126097,
-      "rank": 3,
-      "rank_sort": 3,
-      "total": 44
-    },
-    {
-      "event_total": 42,
+      "event_total": 47,
       "last_rank": null,
       "league_entry": 126065,
-      "rank": 4,
-      "rank_sort": 4,
-      "total": 42
+      "rank": 3,
+      "rank_sort": 3,
+      "total": 47
     },
     {
-      "event_total": 35,
+      "event_total": 46,
+      "last_rank": null,
+      "league_entry": 126097,
+      "rank": 4,
+      "rank_sort": 4,
+      "total": 46
+    },
+    {
+      "event_total": 36,
       "last_rank": null,
       "league_entry": 126134,
       "rank": 5,
       "rank_sort": 5,
-      "total": 35
+      "total": 36
     },
     {
       "event_total": 34,
@@ -162,12 +162,12 @@
       "total": 34
     },
     {
-      "event_total": 32,
+      "event_total": 34,
       "last_rank": null,
       "league_entry": 126114,
-      "rank": 7,
+      "rank": 6,
       "rank_sort": 7,
-      "total": 32
+      "total": 34
     }
   ]
 }
