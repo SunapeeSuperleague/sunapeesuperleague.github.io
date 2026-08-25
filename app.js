@@ -126,7 +126,7 @@ function renderTeamCard(entry, rank, medal, ownedPlayers, gwPoints, seasonTotal,
         list.sort((a, b) => a.web_name.localeCompare(b.web_name));
     }
 
-    const gwLabel = (gwPoints !== null && gwPoints !== undefined) ? `This GW: ${gwPoints} pts` : "";
+    const gwLabel = (gwPoints !== null && gwPoints !== undefined) ? `GW: ${gwPoints} pts` : "";
 
     const groups = POSITION_ORDER.map(pid => {
         const players = byPosition.get(pid);
@@ -152,7 +152,7 @@ function renderTeamCard(entry, rank, medal, ownedPlayers, gwPoints, seasonTotal,
                 </div>
                 <div class="points-block">
                     ${gwLabel ? `<span class="gw-pts">${gwLabel}</span>` : ""}
-                    <span class="total-pts">Season Total: ${seasonTotal} pts</span>
+                    <span class="total-pts">Total: ${seasonTotal} pts</span>
                 </div>
                 <span class="chevron" aria-hidden="true">
                     <svg viewBox="0 0 24 24" width="16" height="16"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
