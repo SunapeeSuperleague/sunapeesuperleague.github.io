@@ -139,6 +139,12 @@
       "status": "a"
     },
     {
+      "element": 418,
+      "in_accepted_trade": false,
+      "owner": null,
+      "status": "a"
+    },
+    {
       "element": 442,
       "in_accepted_trade": false,
       "owner": null,
@@ -865,6 +871,12 @@
       "status": "a"
     },
     {
+      "element": 480,
+      "in_accepted_trade": false,
+      "owner": null,
+      "status": "a"
+    },
+    {
       "element": 317,
       "in_accepted_trade": false,
       "owner": null,
@@ -896,6 +908,12 @@
     },
     {
       "element": 575,
+      "in_accepted_trade": false,
+      "owner": null,
+      "status": "a"
+    },
+    {
+      "element": 532,
       "in_accepted_trade": false,
       "owner": null,
       "status": "a"
@@ -1129,6 +1147,12 @@
       "status": "a"
     },
     {
+      "element": 201,
+      "in_accepted_trade": false,
+      "owner": null,
+      "status": "a"
+    },
+    {
       "element": 156,
       "in_accepted_trade": false,
       "owner": null,
@@ -1250,6 +1274,12 @@
     },
     {
       "element": 23,
+      "in_accepted_trade": false,
+      "owner": null,
+      "status": "a"
+    },
+    {
+      "element": 401,
       "in_accepted_trade": false,
       "owner": null,
       "status": "a"
@@ -1489,6 +1519,12 @@
       "status": "a"
     },
     {
+      "element": 6,
+      "in_accepted_trade": false,
+      "owner": null,
+      "status": "a"
+    },
+    {
       "element": 340,
       "in_accepted_trade": false,
       "owner": null,
@@ -1508,6 +1544,12 @@
     },
     {
       "element": 158,
+      "in_accepted_trade": false,
+      "owner": null,
+      "status": "a"
+    },
+    {
+      "element": 60,
       "in_accepted_trade": false,
       "owner": null,
       "status": "a"
@@ -1682,6 +1724,12 @@
     },
     {
       "element": 42,
+      "in_accepted_trade": false,
+      "owner": null,
+      "status": "a"
+    },
+    {
+      "element": 248,
       "in_accepted_trade": false,
       "owner": null,
       "status": "a"
@@ -1928,6 +1976,12 @@
     },
     {
       "element": 278,
+      "in_accepted_trade": false,
+      "owner": null,
+      "status": "a"
+    },
+    {
+      "element": 106,
       "in_accepted_trade": false,
       "owner": null,
       "status": "a"
@@ -3001,70 +3055,40 @@
       "status": "a"
     },
     {
-      "element": 418,
-      "in_accepted_trade": false,
-      "owner": null,
-      "status": "l"
-    },
-    {
-      "element": 480,
-      "in_accepted_trade": false,
-      "owner": null,
-      "status": "l"
-    },
-    {
-      "element": 532,
-      "in_accepted_trade": false,
-      "owner": null,
-      "status": "l"
-    },
-    {
-      "element": 201,
-      "in_accepted_trade": false,
-      "owner": null,
-      "status": "l"
-    },
-    {
-      "element": 401,
-      "in_accepted_trade": false,
-      "owner": null,
-      "status": "l"
-    },
-    {
-      "element": 6,
-      "in_accepted_trade": false,
-      "owner": null,
-      "status": "l"
-    },
-    {
-      "element": 60,
-      "in_accepted_trade": false,
-      "owner": null,
-      "status": "l"
-    },
-    {
-      "element": 248,
-      "in_accepted_trade": false,
-      "owner": null,
-      "status": "l"
-    },
-    {
-      "element": 106,
-      "in_accepted_trade": false,
-      "owner": null,
-      "status": "l"
-    },
-    {
       "element": 615,
       "in_accepted_trade": false,
       "owner": null,
-      "status": "l"
+      "status": "a"
     },
     {
       "element": 616,
       "in_accepted_trade": false,
       "owner": null,
-      "status": "l"
+      "status": "a"
+    },
+    {
+      "element": 617,
+      "in_accepted_trade": false,
+      "owner": null,
+      "status": "a"
+    },
+    {
+      "element": 618,
+      "in_accepted_trade": false,
+      "owner": null,
+      "status": "a"
+    },
+    {
+      "element": 619,
+      "in_accepted_trade": false,
+      "owner": null,
+      "status": "a"
+    },
+    {
+      "element": 620,
+      "in_accepted_trade": false,
+      "owner": null,
+      "status": "a"
     },
     {
       "element": 229,
