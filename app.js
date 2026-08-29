@@ -81,12 +81,14 @@ function renderPlayerDetails(player, teamsById, positionsById) {
         statRow("Threat", player.threat),
     ].join("");
 
+    const shirtNum = player.squad_number != null ? ` · #${player.squad_number}` : "";
+
     return `
         <div class="player-details">
             <img class="player-photo-lg" src="${imgSrc}" alt="" ${imgFallback ? `data-fallback="${imgFallback}"` : ""}>
             <div class="player-details-body">
                 <div class="player-full-name">${player.first_name} ${player.second_name}</div>
-                <div class="player-details-meta">${team ? team.name : "?"} · ${pos ? pos.singular_name : ""}</div>
+                <div class="player-details-meta">${team ? team.name : "?"} · ${pos ? pos.singular_name : ""}${shirtNum}</div>
                 ${news}
                 <div class="stat-section"><h4>Summary</h4><div class="stat-grid">${summary}</div></div>
                 <div class="stat-section"><h4>Attack</h4><div class="stat-grid">${attack}</div></div>
@@ -104,12 +106,13 @@ function renderPlayer(player, teamsById, positionsById) {
     const shirtFallback = shirtURL(team, isGK, 66);
     const imgSrc = smallPhoto || shirtFallback;
     const imgFallback = smallPhoto ? shirtFallback : "";
+    const shirtNum = player.squad_number != null ? ` · #${player.squad_number}` : "";
     return `
         <div class="player-row" data-player-id="${player.id}">
             <img class="player-photo" src="${imgSrc}" alt="" loading="lazy" ${imgFallback ? `data-fallback="${imgFallback}"` : ""}>
             <div class="player-info">
                 <span class="player-name">${player.web_name}</span>
-                <span class="player-team">${team ? team.short_name : "?"} · ${positionsById.get(player.element_type)?.singular_name_short ?? ""}</span>
+                <span class="player-team">${team ? team.short_name : "?"} · ${positionsById.get(player.element_type)?.singular_name_short ?? ""}${shirtNum}</span>
             </div>
             <span class="player-points">${player.total_points}</span>
         </div>
@@ -176,13 +179,14 @@ function renderRankedRow(player, metric, teamsById, positionsById, subtext = "")
     const imgSrc = smallPhoto || shirtFallback;
     const imgFallback = smallPhoto ? shirtFallback : "";
     const subtextHTML = subtext ? `<span class="player-owner">${subtext}</span>` : "";
+    const shirtNum = player.squad_number != null ? ` · #${player.squad_number}` : "";
     return `
         <div class="player-row best-row" data-player-id="${player.id}">
             <span class="best-metric">${metric}</span>
             <img class="player-photo" src="${imgSrc}" alt="" loading="lazy" ${imgFallback ? `data-fallback="${imgFallback}"` : ""}>
             <div class="player-info">
                 <span class="player-name">${player.web_name}</span>
-                <span class="player-team">${team ? team.short_name : "?"} · ${pos ? pos.singular_name_short : ""}</span>
+                <span class="player-team">${team ? team.short_name : "?"} · ${pos ? pos.singular_name_short : ""}${shirtNum}</span>
                 ${subtextHTML}
             </div>
         </div>
@@ -376,6 +380,15 @@ async function main() {
         ]);
         // Optional: per-team picks for the current gameweek. Absent pre-season.
         const picksData = await loadJSON("data/picks.json").catch(() => null);
+        // Optional: shirt numbers sourced from the Premier League Pulse API,
+        // keyed by FPL element `code`. FPL's own `squad_number` is always null.
+        const jerseys = await loadJSON("data/jersey_numbers.json").catch(() => null);
+        if (jerseys) {
+            for (const p of bootstrap.elements) {
+                const n = jerseys[p.code];
+                if (n != null) p.squad_number = n;
+            }
+        }
 
         document.getElementById("league-name").textContent = details.league?.name ?? "FPL Draft League";
         const entryCount = details.league_entries?.length ?? 0;
