@@ -1393,12 +1393,6 @@
       "status": "a"
     },
     {
-      "element": 454,
-      "in_accepted_trade": false,
-      "owner": null,
-      "status": "a"
-    },
-    {
       "element": 48,
       "in_accepted_trade": false,
       "owner": null,
@@ -3181,6 +3175,12 @@
       "status": "l"
     },
     {
+      "element": 95,
+      "in_accepted_trade": false,
+      "owner": null,
+      "status": "l"
+    },
+    {
       "element": 636,
       "in_accepted_trade": false,
       "owner": null,
@@ -3709,6 +3709,12 @@
       "status": "o"
     },
     {
+      "element": 454,
+      "in_accepted_trade": false,
+      "owner": 125579,
+      "status": "o"
+    },
+    {
       "element": 57,
       "in_accepted_trade": false,
       "owner": 125579,
@@ -3868,12 +3874,6 @@
       "element": 166,
       "in_accepted_trade": false,
       "owner": 125547,
-      "status": "o"
-    },
-    {
-      "element": 95,
-      "in_accepted_trade": false,
-      "owner": 125579,
       "status": "o"
     },
     {
