@@ -122,52 +122,52 @@
       "total": 124
     },
     {
-      "event_total": 0,
+      "event_total": 18,
       "last_rank": 2,
       "league_entry": 126363,
       "rank": 2,
       "rank_sort": 2,
-      "total": 96
+      "total": 114
     },
     {
-      "event_total": 0,
+      "event_total": 8,
       "last_rank": 3,
       "league_entry": 126065,
       "rank": 3,
       "rank_sort": 3,
-      "total": 92
+      "total": 100
     },
     {
-      "event_total": 0,
+      "event_total": 1,
       "last_rank": 4,
       "league_entry": 126103,
       "rank": 4,
       "rank_sort": 4,
-      "total": 85
+      "total": 86
     },
     {
-      "event_total": 0,
+      "event_total": 3,
       "last_rank": 5,
       "league_entry": 126114,
       "rank": 5,
       "rank_sort": 5,
-      "total": 79
+      "total": 82
     },
     {
-      "event_total": 0,
+      "event_total": 3,
       "last_rank": 5,
       "league_entry": 126097,
       "rank": 5,
       "rank_sort": 6,
-      "total": 79
+      "total": 82
     },
     {
-      "event_total": 0,
+      "event_total": 6,
       "last_rank": 7,
       "league_entry": 126134,
       "rank": 7,
       "rank_sort": 7,
-      "total": 67
+      "total": 73
     }
   ]
 }
