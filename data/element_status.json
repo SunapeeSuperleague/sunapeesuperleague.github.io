@@ -3295,6 +3295,12 @@
       "status": "a"
     },
     {
+      "element": 655,
+      "in_accepted_trade": false,
+      "owner": null,
+      "status": "l"
+    },
+    {
       "element": 229,
       "in_accepted_trade": false,
       "owner": 125596,
