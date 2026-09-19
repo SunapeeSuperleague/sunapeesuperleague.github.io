@@ -3343,6 +3343,36 @@
       "status": "a"
     },
     {
+      "element": 663,
+      "in_accepted_trade": false,
+      "owner": null,
+      "status": "a"
+    },
+    {
+      "element": 664,
+      "in_accepted_trade": false,
+      "owner": null,
+      "status": "a"
+    },
+    {
+      "element": 665,
+      "in_accepted_trade": false,
+      "owner": null,
+      "status": "a"
+    },
+    {
+      "element": 666,
+      "in_accepted_trade": false,
+      "owner": null,
+      "status": "a"
+    },
+    {
+      "element": 667,
+      "in_accepted_trade": false,
+      "owner": null,
+      "status": "a"
+    },
+    {
       "element": 229,
       "in_accepted_trade": false,
       "owner": 125596,
