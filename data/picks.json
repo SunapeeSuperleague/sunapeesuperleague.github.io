@@ -331,70 +331,70 @@
         "multiplier": 1
       },
       {
-        "element": 471,
+        "element": 391,
         "position": 2,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 391,
+        "element": 469,
         "position": 3,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 469,
+        "element": 233,
         "position": 4,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 233,
+        "element": 533,
         "position": 5,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 260,
+        "element": 452,
         "position": 6,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 371,
+        "element": 239,
         "position": 7,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 41,
+        "element": 371,
         "position": 8,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 401,
+        "element": 41,
         "position": 9,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 165,
+        "element": 138,
         "position": 10,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 138,
+        "element": 401,
         "position": 11,
         "is_captain": false,
         "is_vice_captain": false,
@@ -408,21 +408,21 @@
         "multiplier": 1
       },
       {
-        "element": 452,
+        "element": 471,
         "position": 13,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 239,
+        "element": 260,
         "position": 14,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 533,
+        "element": 165,
         "position": 15,
         "is_captain": false,
         "is_vice_captain": false,
@@ -445,7 +445,7 @@
         "multiplier": 1
       },
       {
-        "element": 10,
+        "element": 279,
         "position": 3,
         "is_captain": false,
         "is_vice_captain": false,
@@ -459,42 +459,42 @@
         "multiplier": 1
       },
       {
-        "element": 327,
+        "element": 427,
         "position": 5,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 237,
+        "element": 366,
         "position": 6,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 366,
+        "element": 237,
         "position": 7,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 398,
+        "element": 554,
         "position": 8,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 554,
+        "element": 25,
         "position": 9,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 427,
+        "element": 249,
         "position": 10,
         "is_captain": false,
         "is_vice_captain": false,
@@ -515,21 +515,21 @@
         "multiplier": 1
       },
       {
-        "element": 25,
+        "element": 10,
         "position": 13,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 249,
+        "element": 398,
         "position": 14,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 279,
+        "element": 327,
         "position": 15,
         "is_captain": false,
         "is_vice_captain": false,
@@ -715,7 +715,7 @@
         "multiplier": 1
       },
       {
-        "element": 439,
+        "element": 106,
         "position": 11,
         "is_captain": false,
         "is_vice_captain": false,
@@ -729,7 +729,7 @@
         "multiplier": 1
       },
       {
-        "element": 106,
+        "element": 439,
         "position": 13,
         "is_captain": false,
         "is_vice_captain": false,
