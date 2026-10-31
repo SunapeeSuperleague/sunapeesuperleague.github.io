@@ -1,5 +1,5 @@
 {
-  "event": 8,
+  "event": 9,
   "picks": {
     "125501": [
       {
@@ -166,7 +166,7 @@
         "multiplier": 1
       },
       {
-        "element": 428,
+        "element": 53,
         "position": 9,
         "is_captain": false,
         "is_vice_captain": false,
@@ -331,7 +331,7 @@
         "multiplier": 1
       },
       {
-        "element": 533,
+        "element": 112,
         "position": 2,
         "is_captain": false,
         "is_vice_captain": false,
@@ -359,35 +359,35 @@
         "multiplier": 1
       },
       {
-        "element": 233,
+        "element": 239,
         "position": 6,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 452,
+        "element": 367,
         "position": 7,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 239,
+        "element": 452,
         "position": 8,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 41,
+        "element": 371,
         "position": 9,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 260,
+        "element": 552,
         "position": 10,
         "is_captain": false,
         "is_vice_captain": false,
@@ -408,21 +408,21 @@
         "multiplier": 1
       },
       {
-        "element": 165,
+        "element": 260,
         "position": 13,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 222,
+        "element": 233,
         "position": 14,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 371,
+        "element": 165,
         "position": 15,
         "is_captain": false,
         "is_vice_captain": false,
@@ -652,7 +652,7 @@
         "multiplier": 1
       },
       {
-        "element": 200,
+        "element": 61,
         "position": 2,
         "is_captain": false,
         "is_vice_captain": false,
@@ -673,35 +673,35 @@
         "multiplier": 1
       },
       {
-        "element": 154,
+        "element": 426,
         "position": 5,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 124,
+        "element": 154,
         "position": 6,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 542,
+        "element": 124,
         "position": 7,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 94,
+        "element": 542,
         "position": 8,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 526,
+        "element": 94,
         "position": 9,
         "is_captain": false,
         "is_vice_captain": false,
@@ -722,28 +722,28 @@
         "multiplier": 1
       },
       {
-        "element": 28,
+        "element": 496,
         "position": 12,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 426,
+        "element": 526,
         "position": 13,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 61,
+        "element": 113,
         "position": 14,
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1
       },
       {
-        "element": 113,
+        "element": 258,
         "position": 15,
         "is_captain": false,
         "is_vice_captain": false,
